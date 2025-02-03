@@ -26,11 +26,12 @@ class ModelTrainer:
             logging.info("Model training initiated")
 
             X_train, y_train, X_test, y_test = (
-                train_arr[:, -1],
-                train_arr[-1],
-                test_arr[:, -1],
-                test_arr[-1]
+                train_arr[:, :-1],
+                train_arr[:,-1],
+                test_arr[:, :-1],
+                test_arr[:,-1]
             )
+            
 
             models = {
                 'LinearRegression': LinearRegression(),
@@ -41,9 +42,7 @@ class ModelTrainer:
                 'RandomForestRegressor' : RandomForestRegressor(),
             }
 
-            model_report:dict = evaluate_model(X_train, y_train, 
-                                               X_test, y_test, 
-                                               models)
+            model_report:dict = evaluate_model(X_train, y_train, X_test, y_test, models)
             
             best_model_score = max(sorted(model_report.values()))
 
